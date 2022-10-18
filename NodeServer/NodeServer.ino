@@ -11,13 +11,10 @@ boolean ledState = 0;
 void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
-  WiFi.mode(WIFI_AP_STA);
+  WiFi.mode(WIFI_AP);
   WiFi.softAP("NODEServer","NodeServer");
   delay(100);
-  while(WiFi.status() != WL_CONNECTED){
-    Serial.print(".");
-    delay(500); 
-  }
+  
   Serial.println("connection");
   server.on("/update", HTTP_GET, [] (AsyncWebServerRequest *request) {
     ledState = request->getParam("state")->value().toInt();
